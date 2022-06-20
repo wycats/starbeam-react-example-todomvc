@@ -2,16 +2,14 @@ import './App.css';
 import '@modules/todomvc-app-css/index.css';
 import {
   useStarbeam,
-  Cell,
   ReactiveElement,
-  Resource,
   reactive,
-} from './vendor/starbeam-react.js';
+} from '../vendor/starbeam-react.js';
 import { FormEvent, ReactElement } from 'react';
 import classNames from 'classnames';
-import { formData } from './utils';
-import { active, all, completed, Router, TodoItem } from './router';
-import { Todo } from './components/Todo';
+import { formData } from '../utils';
+import { active, all, completed, Router, TodoItem } from '../router';
+import { Todo } from '../components/Todo';
 
 function App() {
   return useStarbeam((component: ReactiveElement) => {
@@ -64,6 +62,12 @@ function App() {
       }
     }
 
+    function markAllComplete(completed: boolean) {
+      for (const todo of allTodos) {
+        todo.completed = completed;
+      }
+    }
+
     function count() {
       const total = allTodos.size;
       const activeCount = active([...allTodos]).length;
@@ -95,7 +99,12 @@ function App() {
           </header>
           {/* This section should be hidden by default and shown when there are todos */}
           <section className="main">
-            <input id="toggle-all" className="toggle-all" type="checkbox" />
+            <input
+              onInput={(e) => markAllComplete(e.currentTarget.checked)}
+              id="toggle-all"
+              className="toggle-all"
+              type="checkbox"
+            />
             <label htmlFor="toggle-all">Mark all as complete</label>
             <ul className="todo-list">
               {todos().map((todo) => (

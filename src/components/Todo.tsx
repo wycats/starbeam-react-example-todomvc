@@ -37,8 +37,8 @@ export function Todo({
           <input
             className="toggle"
             type="checkbox"
-            defaultChecked={todo.completed}
-            onInput={updateComplete}
+            checked={todo.completed}
+            onChange={updateComplete}
           />
           <label>
             <button onClick={() => editing.update((e) => !e)}>
